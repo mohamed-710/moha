@@ -10,48 +10,46 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
+import DeleteIcon from "@mui/icons-material/Delete"; 
+import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { setMessages,addMessage,deleteMessage} from "../state/index";
 
 const MessageSidebar = ({ selectedFriend, handleClose, userId }) => {
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.token);
+  const messages = useSelector((state) => state.messages);
+ 
+
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  useEffect(() => {
-    // جلب الرسائل عند تحميل المكون
-    fetchMessages();
-  }, [selectedFriend]);
-
-  const fetchMessages = async () => {
-    try {
-      const response = await fetch(
-        `/api/messages?friendId=${selectedFriend._id}`
-      );
-      const data = await response.json();
-      setMessages(data);
-    } catch (error) {
-      console.error("Error fetching messages:", error);
-    }
-  };
 
   const handleSendMessage = async () => {
     if (message.trim()) {
       const newMessage = {
         sender: userId,
         receiver: selectedFriend._id,
-        text: message,
-        time: new Date(),
+        text: message, 
+        
+    
       };
-
+      console.log("sender",newMessage.sender);
+      
       try {
-        await fetch("/api/messages", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newMessage),
-        });
+        const response = await axios.post(
+          "http://localhost:3001/messages/send",
+          newMessage,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
 
-        setMessages((prevMessages) => [...prevMessages, newMessage]);
+            },
+          }
+        );
+        console.log("Sent message response:", response.data.message);
+        dispatch(addMessage(response.data.message))
         setMessage("");
         setIsDialogOpen(true);
       } catch (error) {
@@ -59,6 +57,41 @@ const MessageSidebar = ({ selectedFriend, handleClose, userId }) => {
       }
     }
   };
+  const fetchMessages = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3001/messages/${userId}/${selectedFriend._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const fetchedMessages = response.data.messages;
+     dispatch(setMessages({fetchedMessages}));
+     
+     console.log("Fetched messages:", fetchedMessages)
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+    }
+
+  };
+  const handleDeleteMessage = async (messageId) => {
+    try {
+      await axios.delete(`http://localhost:3001/messages/${messageId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      dispatch(deleteMessage(messageId));  
+    } catch (error) {
+      console.error("Error deleting message:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMessages();
+  }, [selectedFriend]);
 
   const handleDialogClose = () => {
     setIsDialogOpen(false);
@@ -112,41 +145,49 @@ const MessageSidebar = ({ selectedFriend, handleClose, userId }) => {
           borderRadius: "8px",
         }}
       >
-        {messages.length === 0 ? (
+        {!messages||messages.length === 0 ? (
           <Typography variant="body2" sx={{ color: "#888" }}>
             No messages yet.
           </Typography>
         ) : (
-          messages.map((msg, index) => (
+          messages.map((message) => (
             <Box
-              key={index}
+              key={message._id}
               sx={{
                 mb: "0.5rem",
                 display: "flex",
                 justifyContent:
-                  msg.sender === userId ? "flex-end" : "flex-start",
+                message.sender === userId ? "flex-end" : "flex-start",
+                
               }}
             >
               <Box
                 sx={{
                   maxWidth: "80%",
                   padding: "0.5rem 1rem",
-                  backgroundColor:
-                    msg.sender === userId ? "#FFD700" : "#3E3E3E",
-                  color: msg.sender === userId ? "#1E1E1E" : "#FFFFFF",
+                  backgroundColor: message.sender === userId ? "#FFD700" : "#3E3E3E",
+                  color: message.sender === userId ? "#1E1E1E" : "#FFFFFF",
                   borderRadius: "10px 10px 10px 0px",
                 }}
               >
                 <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-                  {msg.sender === userId ? "You" : selectedFriend.name}:{" "}
-                  {msg.text}
+                  {message.sender === userId ? "You" : selectedFriend.name}:{" "}
+                  {message.text}
                 </Typography>
                 <Typography
                   variant="caption"
                   sx={{ color: "#888", display: "block" }}
                 >
-                  {new Date(msg.time).toLocaleTimeString()}
+                  {new Date(message.createdAt).toLocaleTimeString()}
                 </Typography>
+                {message.sender === userId && (
+                      <IconButton
+                      onClick={() => handleDeleteMessage(message._id)}
+                      sx={{ color: "red", marginLeft: "5px" }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                    )}
               </Box>
             </Box>
           ))

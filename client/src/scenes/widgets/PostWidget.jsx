@@ -303,11 +303,23 @@ const PostWidget = ({
     height="auto"
     style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
     controls
+    onEnded={(e) => e.target.play()} 
   >
     <source src={`http://localhost:3001/assets/${videoPath}`} type="video/mp4" />
     Your browser does not support the video tag.
   </video>
 )}
+{audioPath && (
+  <audio
+    style={{ borderRadius: "0.75rem", marginTop: "0.75rem", width: "100%" }}
+    controls
+    onEnded={(e) => e.target.play()} 
+  >
+    <source src={`http://localhost:3001/assets/${audioPath}`} type="audio/mp3" />
+    Your browser does not support the audio tag.
+  </audio>
+)}
+
       <FlexBetween mt="0.25rem">
         <FlexBetween gap="1rem">
           <FlexBetween gap="0.3rem">
@@ -508,6 +520,8 @@ const PostWidget = ({
       >
         <MenuItem
           onClick={() => {
+            const selectedComment = comments.find((comment) => comment.commentId === currentCommentId);
+            setEditComment(selectedComment.comment);
             setEditCommentId(currentCommentId);
             setAnchorElComment(null);
           }}

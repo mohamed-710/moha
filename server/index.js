@@ -10,6 +10,7 @@ const path = require("path");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/users");
 const postRoutes = require("./routes/posts");
+const messageRouter=require("./routes/massageRouter");
 const { register } = require("./controllers/auth");
 const { createPost } = require("./controllers/posts");
 const { verifyToken } = require("./middleware/auth");
@@ -46,6 +47,7 @@ app.post("/posts", verifyToken, upload.fields([{ name: "picture" }, { name: "vid
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/posts", postRoutes);
+app.use('/messages', messageRouter);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 3001;

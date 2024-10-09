@@ -5,6 +5,7 @@ const initialState = {
   user: null,
   token: null,
   posts: [],
+  messages: [], 
 };
 
 export const authSlice = createSlice({
@@ -13,6 +14,22 @@ export const authSlice = createSlice({
   reducers: {
     setMode: (state) => {
       state.mode = state.mode === "light" ? "dark" : "light";
+    },
+    setMessages: (state, action) => {
+      state.messages = action.payload.fetchedMessages; 
+    },
+    addMessage: (state, action) => {
+      const updatedMessages = state.messages.map((message) => {
+        if (message._id === action.payload._id) return action.payload;
+        return message; 
+      });
+      if (!updatedMessages.some(message => message._id === action.payload._id)) {
+        updatedMessages.push(action.payload);
+      }
+      state.messages = updatedMessages; 
+    },
+    deleteMessage: (state, action) => {
+      state.messages = state.messages.filter(message => message._id !== action.payload); 
     },
     setLogin: (state, action) => {
       state.user = action.payload.user;
@@ -46,6 +63,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setMode, setLogin, setLogout, setFriends, setPosts, setPost, deletePost } =
+export const { setMode, setLogin, setLogout, setFriends, setPosts, setPost, deletePost ,setMessages,addMessage,deleteMessage} =
   authSlice.actions;
 export default authSlice.reducer;

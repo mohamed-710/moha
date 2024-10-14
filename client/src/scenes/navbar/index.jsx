@@ -81,7 +81,7 @@ const Navbar = () => {
 
       const params = { name: searchQuery };
 
-      const response = await axios.get("http://localhost:3001/users/search", {
+      const response = await axios.get("https://moha-ten.vercel.app/users/search", {
         params,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -194,7 +194,7 @@ const Navbar = () => {
                   >
                     <Avatar
                       alt={user.firstName}
-                      src={`http://localhost:3001/assets/${user.picturePath}`}
+                      src={`https://moha-ten.vercel.app/assets/${user.picturePath}`}
                       sx={{ marginRight: "0.5rem", width: 25, height: 25 }}
                     />
                     <Typography sx={{ fontSize: "0.75rem" }}>
@@ -225,7 +225,7 @@ const Navbar = () => {
           </IconButton>
           <IconButton onClick={handleMenuClick}>
             <img
-              src={`http://localhost:3001/assets/${user.picturePath}`}
+              src={`https://moha-ten.vercel.app/assets/${user.picturePath}`}
               style={{
                 width: "40px",
                 height: "40px",

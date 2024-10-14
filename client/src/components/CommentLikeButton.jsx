@@ -21,7 +21,7 @@ const CommentLikeButton = ({ commentId, postId, likes }) => {
     const patchLikeComment = async () => {
         try {
             const response = await axios.patch(
-                `http://localhost:3001/posts/${postId}/comment/${commentId}/like`,
+                `https://moha-ten.vercel.app/posts/${postId}/comment/${commentId}/like`,
                 { userId: loggedInUserId },
                 axiosConfig
             );

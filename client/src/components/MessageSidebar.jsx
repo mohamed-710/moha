@@ -38,7 +38,7 @@ const MessageSidebar = ({ selectedFriend, handleClose, userId }) => {
       
       try {
         const response = await axios.post(
-          "http://localhost:3001/messages/send",
+          "https://moha-ten.vercel.app/messages/send",
           newMessage,
           {
             headers: {
@@ -60,7 +60,7 @@ const MessageSidebar = ({ selectedFriend, handleClose, userId }) => {
   const fetchMessages = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/messages/${userId}/${selectedFriend._id}`,
+        `https://moha-ten.vercel.app/messages/${userId}/${selectedFriend._id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -78,7 +78,7 @@ const MessageSidebar = ({ selectedFriend, handleClose, userId }) => {
   };
   const handleDeleteMessage = async (messageId) => {
     try {
-      await axios.delete(`http://localhost:3001/messages/${messageId}`, {
+      await axios.delete(`https://moha-ten.vercel.app/messages/${messageId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

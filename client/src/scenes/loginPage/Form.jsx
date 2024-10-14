@@ -92,7 +92,7 @@ const Form = () => {
       }
 
       const response = await axios.post(
-        "http://localhost:3001/auth/register",
+        "https://moha-ten.vercel.app/auth/register",
         formData
       );
       onSubmitProps.resetForm();
@@ -109,7 +109,7 @@ const Form = () => {
     try {
       setLoading(true);
       const { data: loggedIn } = await axios.post(
-        "http://localhost:3001/auth/login",
+        "https://moha-ten.vercel.app/auth/login",
         values
       );
       onSubmitProps.resetForm();

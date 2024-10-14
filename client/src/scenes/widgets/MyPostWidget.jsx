@@ -60,7 +60,7 @@ const MyPostWidget = ({ picturePath}) => {
         formData.append("audioPath", audio.name);
       }
       try {
-          const response = await axios.post("http://localhost:3001/posts", formData, {
+          const response = await axios.post("https://moha-ten.vercel.app/posts", formData, {
               headers: { Authorization: `Bearer ${token}` },
           });
           

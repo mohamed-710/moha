@@ -70,7 +70,7 @@ const PostWidget = ({
   const patchLike = async () => {
     try {
       const response = await axios.patch(
-        `http://localhost:3001/posts/${postId}/like`,
+        `https://moha-ten.vercel.app/posts/${postId}/like`,
         { userId: loggedInUserId },
         axiosConfig
       );
@@ -84,7 +84,7 @@ const PostWidget = ({
     if (newComment.trim()) {
       try {
         const response = await axios.post(
-          `http://localhost:3001/posts/${postId}/comment`,
+          `https://moha-ten.vercel.app/posts/${postId}/comment`,
           { userId: loggedInUserId, comment: newComment },
           axiosConfig
         );
@@ -101,7 +101,7 @@ const PostWidget = ({
     if (editComment.trim()) {
       try {
         const response = await axios.patch(
-          `http://localhost:3001/posts/${postId}/comment/${commentId}`,
+          `https://moha-ten.vercel.app/posts/${postId}/comment/${commentId}`,
           { userId: loggedInUserId, editComment },
           axiosConfig
         );
@@ -119,7 +119,7 @@ const PostWidget = ({
   const handleDeleteComment = async (commentId) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3001/posts/${postId}/comment/${commentId}`,
+        `https://moha-ten.vercel.app/posts/${postId}/comment/${commentId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -138,7 +138,7 @@ const PostWidget = ({
   const handleDeletePost = async () => {
     try {
       const response = await axios.delete(
-        `http://localhost:3001/posts/${postId}`,
+        `https://moha-ten.vercel.app/posts/${postId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -293,7 +293,7 @@ const PostWidget = ({
     height="auto"
     alt="post"
     style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-    src={`http://localhost:3001/assets/${picturePath}`}
+    src={`https://moha-ten.vercel.app/assets/${picturePath}`}
   />
 )}
 
@@ -305,7 +305,7 @@ const PostWidget = ({
     controls
     onEnded={(e) => e.target.play()} 
   >
-    <source src={`http://localhost:3001/assets/${videoPath}`} type="video/mp4" />
+    <source src={`https://moha-ten.vercel.app/assets/${videoPath}`} type="video/mp4" />
     Your browser does not support the video tag.
   </video>
 )}
@@ -315,7 +315,7 @@ const PostWidget = ({
     controls
     onEnded={(e) => e.target.play()} 
   >
-    <source src={`http://localhost:3001/assets/${audioPath}`} type="audio/mp3" />
+    <source src={`https://moha-ten.vercel.app/assets/${audioPath}`} type="audio/mp3" />
     Your browser does not support the audio tag.
   </audio>
 )}
@@ -417,7 +417,7 @@ const PostWidget = ({
                 >
                   <Box display="flex" alignItems="center" gap="0.5rem">
                     <img
-                      src={`http://localhost:3001/assets/${comment.picturePath}`}
+                      src={`https://moha-ten.vercel.app/assets/${comment.picturePath}`}
                       alt={`${comment.firstName} ${comment.lastName}`}
                       style={{
                         width: "30px",

@@ -42,7 +42,7 @@ const UserWidget = ({ userId, picturePath }) => {
   const getUser = async () => {
     try {
       const response = await axios.get(
-        `https://moha-ten.vercel.app/users/${userId}`,
+        `http://localhost:3001/users/${userId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -63,7 +63,7 @@ const UserWidget = ({ userId, picturePath }) => {
   const updateUser = async (field, value) => {
     try {
       await axios.patch(
-        `https://moha-ten.vercel.app/users/${userId}`,
+        `http://localhost:3001/users/${userId}`,
         { [field]: value },
         {
           headers: { Authorization: `Bearer ${token}` },

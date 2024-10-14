@@ -31,7 +31,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
 
     try {
       const response = await axios.patch(
-        `https://moha-ten.vercel.app/users/${_id}/${friendId}`,
+        `http://localhost:3001/users/${_id}/${friendId}`,
         {},
         {
           headers: {

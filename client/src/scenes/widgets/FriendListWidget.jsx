@@ -19,7 +19,7 @@ const FriendListWidget = ({ userId }) => {
   const getFriends = async () => {
     try {
       const response = await axios.get(
-        `https://moha-ten.vercel.app/users/${userId}/friends`,
+        `http://localhost:3001/users/${userId}/friends`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

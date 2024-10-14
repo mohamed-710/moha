@@ -23,7 +23,7 @@ const ProfilePage = () => {
       setLoading(true); // Set loading to true before fetching
       try {
         const response = await axios.get(
-          `http://localhost:3001/users/${userId}`,
+          `mohaback.vercel.app/users/${userId}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }

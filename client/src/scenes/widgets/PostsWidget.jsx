@@ -12,7 +12,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
 
   const getPosts = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/posts", {
+      const response = await axios.get("mohaback.vercel.app/posts", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setComments(response.data.comments);
@@ -24,7 +24,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
 
   const getUserPosts = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/posts/${userId}/posts`, {
+      const response = await axios.get(`mohaback.vercel.app/posts/${userId}/posts`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       dispatch(setPosts({ posts: response.data }));
